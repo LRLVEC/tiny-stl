@@ -6,6 +6,7 @@
 #include <_TemplateMeta.h>
 #define NOMINMAX
 
+// #define _WIN32
 namespace Math
 {
 #define CheckNumType(T)		static_assert(NumType<T>::value, "Wrong NumType!")
@@ -263,11 +264,11 @@ namespace Math
 			q /= a;
 			return *this;
 		}
-		bool operator==(Q<T>const& a)const
+		bool operator==(Quaternion<T>const& a)const
 		{
 			return q == a.q;
 		}
-		bool operator!=(Q<T>const& a)const
+		bool operator!=(Quaternion<T>const& a)const
 		{
 			return q != a.q;
 		}
@@ -1855,3 +1856,4 @@ namespace Math
 }
 
 
+// #undef _WIN32

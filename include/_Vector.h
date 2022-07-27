@@ -2,6 +2,7 @@
 #include <new>
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 #include <cmath>
 #include <initializer_list>
 #include <_TemplateMeta.h>
@@ -96,9 +97,16 @@ template<class T>inline Vector<T>::Vector(Vector<T>const& a)
 	if (this == &a)return;
 	lengthAll = a.lengthAll;
 	length = a.length;
-	data = (T*)std::malloc(a.lengthAll * sizeof(T));
-	for (int c1 = 0; c1 < length; c1++)
-		new(data + c1)T(a.data[c1]);
+	if (length)
+	{
+		data = (T*)std::malloc(a.lengthAll * sizeof(T));
+		for (int c1 = 0; c1 < length; c1++)
+			new(data + c1)T(a.data[c1]);
+	}
+	else
+	{
+		data = nullptr;
+	}
 }
 template<class T>template<class R>inline Vector<T>::Vector(Vector<R>const& a)
 {
@@ -332,12 +340,18 @@ template<class T>inline Vector<T>& Vector<T>::pushBack(T const& a)
 		}
 		else
 		{
-			for (int c1 = 0; c1 < length; c1++)
+			if (length)
 			{
-				new(tp + c1)T(data[c1]);
-				(data + c1)->~T();
+				for (int c1 = 0; c1 < length; c1++)
+				{
+					new(tp + c1)T(data[c1]);
+					(data + c1)->~T();
+				}
 			}
-			free(data);
+			if(data)
+			{
+				free(data);
+			}
 			data = tp;
 			new(data + length++)T(a);
 		}
@@ -411,7 +425,7 @@ template<class T>inline Vector<T>& Vector<T>::inverse()
 		new(data + length - c0 - 1)T(tp);
 		tp->~T();
 	}
-	::free(tp);
+	free(tp);
 	return *this;
 }
 template<class T>inline Vector<T>  Vector<T>::omit(int a) const

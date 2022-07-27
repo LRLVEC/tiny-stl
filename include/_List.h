@@ -282,6 +282,7 @@ template<class T>inline List<T>& List<T>::omit(unsigned int n)
 					begin = begin->suc;
 					begin->pre->~ListNode();
 					::free(begin->pre);
+					begin->pre = nullptr;
 				}
 			}
 		}

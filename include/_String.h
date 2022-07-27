@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <cwchar>
 #include <_Vector.h>
 #include <_Algorithm.h>
 
@@ -317,6 +318,7 @@ template<class T>inline String<T>::operator T const* ()const
 template<class T>template<class R>	inline String<T>& String<T>::operator=(String<R>const& a)
 {
 	if (data)::free(data);
+	data = nullptr;
 	if constexpr (IsSameType<T, R>::value)
 	{
 		if constexpr (IsSameType<T, char>::value)
@@ -357,6 +359,7 @@ template<class T>template<class R>	inline String<T>& String<T>::operator=(String
 template<class T>					inline String<T>& String<T>::operator=(String<T>const& a)
 {
 	if (data)::free(data);
+	data = nullptr;
 	if constexpr (IsSameType<T, char>::value)
 	{
 		length = a.length;

@@ -87,7 +87,8 @@ template<class T, unsigned int _length>inline Array<T, _length>::Array(T const& 
 //Destruction
 template<class T, unsigned int _length>inline Array<T, _length>::~Array()
 {
-	for (T& d : data)d.~T();
+	// Fuck！
+	// for (T& d : data)d.~T();
 }
 //operator=
 template<class T, unsigned int _length>inline Array<T, _length>& Array<T, _length>::operator=(Array<T, _length>&& a)
