@@ -265,6 +265,13 @@ struct File
 #include <unistd.h>
 #include <dirent.h>
 #include <fcntl.h>
+
+struct STL;
+struct BMP;
+namespace RayTracing
+{
+	struct Model;
+}
 struct File
 {
 	using stat = struct stat;
@@ -499,6 +506,14 @@ struct File
 		return Vector<unsigned char>(r, __length, _length);
 	}
 	
+	STL readSTL()const;
+	STL readSTL(String<char>const&)const;
+	BMP readBMP()const;
+	BMP readBMP(String<char>const&)const;
+	BMP readBMP32bit()const;
+	BMP readBMP32bit(String<char>const&)const;
+	RayTracing::Model readModel()const;
+
 	//Print info
 	void print()const
 	{

@@ -140,7 +140,7 @@ struct BMPCube
 	BMPCube(String<char>const& _path) :bmp{ _path + "front.bmp",_path + "back.bmp",_path + "down.bmp",_path + "up.bmp",_path + "right.bmp",_path + "left.bmp" } {}
 };
 
-
+#ifdef _WIN32
 //File...
 inline BMP File::readBMP()const
 {
@@ -162,3 +162,4 @@ inline BMP File::readBMP32bit(String<char> const& _name)const
 	if (!this)return BMP();
 	return BMP(property.path + _name, true);
 }
+#endif
