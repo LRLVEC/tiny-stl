@@ -1,5 +1,6 @@
 #pragma once
 #include <_Vector.h>
+#include <_TemplateMeta.h>
 //TODO:
 
 //sort
@@ -669,10 +670,13 @@ inline Vector<T> &Vector<T>::truncateSelf(IntervalSet<int> const &s)
 }
 
 //phi
-unsigned long long phi(unsigned long long a)
+template <class T>
+T phi(T a)
 {
-	unsigned long long res = a;
-	for (unsigned long long i = 2; i * i <= a; i++)
+	// don't check numtype since it maybe used by big integer lib
+	// static_assert(NumType<Y>::value, "Wrong NumType!");
+	T res = a;
+	for (T i = 2; i * i <= a; i++)
 	{
 		if (a % i == 0)
 			res = (res / i) * (i - 1);
@@ -684,9 +688,10 @@ unsigned long long phi(unsigned long long a)
 	return res;
 }
 //quick pow
-unsigned long long qpow(unsigned long long a, unsigned long long n, unsigned long long _mod)
+template <class T>
+T qpow(T a, T n, T _mod)
 {
-	unsigned long long ans = 1;
+	T ans = 1;
 	while (n)
 	{
 		if (n & 1)

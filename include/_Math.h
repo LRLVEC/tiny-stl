@@ -1688,6 +1688,7 @@ namespace Math
 		return (1 - c) * (n ^ n) + mat3<double>::id(c) + sin(a) * n.crossMat();
 	}
 	//==============================================test====================================
+#ifdef _MATH_TEST
 	void testVecMat()
 	{
 		vec<int, 3>va{ 1,2,3 };
@@ -1853,6 +1854,7 @@ namespace Math
 		b(vecA, false).printInfo("b(vecA, false):\t", "\n");
 		rotateQ(vecA, Pi / 4, false).printInfo("rotateQ(b, Pi/4, false):\t", "\n");
 	}
+#endif
 }
 
 
