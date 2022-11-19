@@ -3,6 +3,7 @@
 #include <typeinfo>
 #include <initializer_list>
 #include <new>
+#include <stdexcept>
 
 template<class T>struct List
 {
@@ -185,7 +186,10 @@ template<class T>inline List<T>::~List()
 template<class T>inline typename List<T>::ListNode& List<T>::operator[](unsigned int n)
 {
 	if (n >= length)
+	{
+		throw std::runtime_error{ "Try to access element outside List size!" };
 		return *(ListNode*)nullptr;
+	}
 	ListNode * r;
 	if (n <= (length << 1))
 	{
