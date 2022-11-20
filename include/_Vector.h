@@ -75,6 +75,7 @@ template<class T>struct Vector
 	//traverse
 	bool traverse(bool(*p)(T&));
 	bool traverse(bool(*p)(T const&))const;
+	template<typename L> std::enable_if<IsLambda<L>::value> traverseLambda(L)const;
 };
 //Construction
 template<class T>inline Vector<T>::Vector()
@@ -518,4 +519,9 @@ template<class T>inline bool Vector<T>::traverse(bool(*p)(T const&))const
 		if (!p(data[c1]))return false;
 	return true;
 }
-
+template<class T>template<typename L> inline std::enable_if<IsLambda<L>::value> Vector<T>::traverseLambda(L lambda) const
+{
+	for (int c1 = 0; c1 < length; c1++)
+		lambda(data[c1]);
+	return {};
+}
