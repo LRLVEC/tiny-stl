@@ -262,4 +262,8 @@ template<>struct CharType<wchar_t>
 	static constexpr const wchar_t* printInfo = L"%ls";
 };
 
+//==============================================
+template<typename T>struct IsFunctor : std::false_type {};
+template<typename L, typename R, typename... Args> struct IsFunctor<R(L::*)(Args...)> : std::true_type {};
+template<typename L>struct IsLambda : IsFunctor<decltype(&L::operator())> {};
 
