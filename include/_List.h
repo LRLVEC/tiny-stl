@@ -41,8 +41,13 @@ template<class T>struct List
 
 	template<class R>ListNode& find(R const&);
 	ListNode& find(T const&);
+	template<class R>int id(R const&)const;
+	int id(T const&)const;
 	bool traverse(bool(*p)(T const&))const;
 	bool check(bool(*p)(T const&));
+	// L must return bool
+	template<typename L> std::enable_if<IsLambda<L>::value> checkLambda(L);
+	template<typename L> std::enable_if<IsLambda<L>::value> traverseLambda(L)const;
 
 	void printInfo()const;
 	void printInfo(char const*, bool(*p)(T const&))const;
@@ -322,6 +327,32 @@ template<class T>					inline typename List<T>::ListNode& List<T>::find(T const& 
 	}
 	return *(ListNode*)nullptr;
 }
+template<class T>template<class R>	inline typename int List<T>::id(R const& a) const
+{
+	int _id(-1);
+	ListNode* t(begin);
+	while (t)
+	{
+		++_id;
+		if (t->data == a)
+			return _id;
+		t = t->suc;
+	}
+	return -1;
+}
+template<class T>					inline typename int List<T>::id(T const& a) const
+{
+	int _id(-1);
+	ListNode* t(begin);
+	while (t)
+	{
+		++_id;
+		if (t->data == a)
+			return _id;
+		t = t->suc;
+	}
+	return -1;
+}
 template<class T>inline bool List<T>::traverse(bool(*p)(T const&)) const
 {
 	ListNode* t(begin);
@@ -359,7 +390,43 @@ template<class T>inline bool List<T>::check(bool(*p)(T const&))
 	}
 	return false;
 }
-
+template<class T>template<typename L> inline std::enable_if<IsLambda<L>::value> List<T>::checkLambda(L lambda)
+{
+	ListNode* t(begin);
+	while (t)
+	{
+		if (!lambda(t->data))
+		{
+			ListNode* k(t->suc);
+			if (t == begin)
+			{
+				if (t != end)begin = k;
+				else begin = end = nullptr;
+			}
+			else if (t == end)
+			{
+				end = t->pre;
+			}
+			--length;
+			t->~ListNode();
+			::free(t);
+			t = k;
+			continue;
+		}
+		t = t->suc;
+	}
+	return {};
+}
+template<class T>template<typename L> inline std::enable_if<IsLambda<L>::value> List<T>::traverseLambda(L lambda) const
+{
+	ListNode* t(begin);
+	while (t)
+	{
+		lambda(t->data);
+		t = t->suc;
+	}
+	return {};
+}
 template<class T>inline void List<T>::printInfo() const
 {
 	::printf("[List<%s>, %u]\n", typeid(T).name(), length);
