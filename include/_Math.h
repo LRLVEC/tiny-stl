@@ -6,6 +6,16 @@
 #include <_TemplateMeta.h>
 #define NOMINMAX
 
+#ifdef max
+#define max_temp max
+#undef max
+#endif
+
+#ifdef min
+#define min_temp min
+#undef min
+#endif
+
 // #define _WIN32
 namespace Math
 {
@@ -1857,5 +1867,14 @@ namespace Math
 #endif
 }
 
+#ifdef max_temp
+#define max max_temp
+#undef max_temp
+#endif
+
+#ifdef min_temp
+#define min min_temp
+#undef min_temp
+#endif
 
 // #undef _WIN32
