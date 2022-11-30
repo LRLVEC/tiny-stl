@@ -17,6 +17,14 @@ struct Timer
 	{
 		timespec_get(&ending, TIME_UTC);
 	}
+	double deltaT()
+	{
+		return double(1000000000ULL * (ending.tv_sec - beginning.tv_sec) + (ending.tv_nsec - beginning.tv_nsec)) / 1000000000ULL;
+	}
+	double fps()
+	{
+		return 1000000000.0 / deltaT();
+	}
 	void wait(long long _dt)
 	{
 		begin();
@@ -38,7 +46,7 @@ struct Timer
 			dt = 1000000000LL * (ending.tv_sec - beginning.tv_sec) + (ending.tv_nsec - beginning.tv_nsec);
 		} while (dt < _dt);
 	}
-	void print() const
+	void print(bool new_line = true) const
 	{
 		constexpr unsigned long long e3{1000U};
 		constexpr unsigned long long e6{1000000U};
@@ -63,9 +71,10 @@ struct Timer
 			printf("%8llu,%03llu,%03llu,%03llu ns", dt1 / e9, (dt1 % e9) / e6, (dt1 % e6) / e3, dt1 % e3);
 		else if (length < 15)
 			printf("%4llu,%03llu,%03llu,%03llu,%03llu ns", dt1 / e12, (dt1 % e12) / e9, (dt1 % e6) / e6, (dt1 % e6) / e6, dt1 % e3);
-		printf("\n");
+		if (new_line)
+			printf("\n");
 	}
-	void print(const char *a) const
+	void print(const char* a) const
 	{
 		printf("%s", a);
 		print();
@@ -172,4 +181,3 @@ struct FPS
 		}
 	}
 };
- 
