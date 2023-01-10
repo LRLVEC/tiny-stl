@@ -327,7 +327,7 @@ template<class T>					inline typename List<T>::ListNode& List<T>::find(T const& 
 	}
 	return *(ListNode*)nullptr;
 }
-template<class T>template<class R>	inline typename int List<T>::id(R const& a) const
+template<class T>template<class R>	inline			int List<T>::id(R const& a) const
 {
 	int _id(-1);
 	ListNode* t(begin);
@@ -340,7 +340,7 @@ template<class T>template<class R>	inline typename int List<T>::id(R const& a) c
 	}
 	return -1;
 }
-template<class T>					inline typename int List<T>::id(T const& a) const
+template<class T>					inline			int List<T>::id(T const& a) const
 {
 	int _id(-1);
 	ListNode* t(begin);
