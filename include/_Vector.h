@@ -182,7 +182,7 @@ template<class T>inline Vector<T>& Vector<T>::moveTo(Vector<T>& a)
 template<class T>inline Vector<T>	Vector<T>::operator+ (Vector<T>const& a)
 {
 	Vector<T>* tp = new Vector<T>;
-	tp->lengthAll = 1 << (1 + (int)log2(tp->length = length + a.length));
+	tp->lengthAll = 1 << (1 + (int)std::log2(tp->length = length + a.length));
 	tp->data = (T*)std::malloc(tp->lengthAll * sizeof(T));
 	for (int c1 = 0; c1 < length; c1++)
 		new(tp->data + c1)T(data[c1]);
@@ -290,7 +290,7 @@ template<class T>inline Vector<T>& Vector<T>::concat(T* const _data, int _length
 		length += _length;
 		return *this;
 	}
-	lengthAll = 1 << (1 + (int)log2(length + _length));
+	lengthAll = 1 << (1 + (int)std::log2(length + _length));
 	T* tp = (T*)std::malloc(lengthAll * sizeof(T));
 	for (int c1 = 0; c1 < length; c1++)
 		new(tp + c1)T(data[c1]);
