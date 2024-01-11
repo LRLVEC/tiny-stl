@@ -43,9 +43,9 @@ struct ThreadPool
 	}
 
 	template <class F>
-	auto enqueueTask(F&& f, bool highPriority = false) -> std::future<std::result_of_t <F()>>
+	auto enqueueTask(F&& f, bool highPriority = false) -> std::future<std::invoke_result_t<F>>
 	{
-		using return_type = std::result_of_t<F()>;
+		using return_type = std::invoke_result_t <F>;
 		++mNumTasksInSystem;
 		auto task = std::make_shared<std::packaged_task<return_type()>>(std::forward<F>(f));
 		auto res = task->get_future();
